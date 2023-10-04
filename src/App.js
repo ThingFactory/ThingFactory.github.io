@@ -10,6 +10,8 @@ function App() {
     factory = new Factory((state) => setState(state));
   }, []);
 
+
+
   useEffect(()=>{
     interval = setInterval(() => factory.Update(), 10);
   });
@@ -21,14 +23,18 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <h3>Let's make <input value={state.thingName} onChange={e => factory.UpdateName(e.target.value)}/></h3>
+        <sub>
+          You have made {Math.round(state.allTimeTotal)} {state.thingName} in total
+        </sub>
         <p>
-          The total is {Math.round(state.total)}
+          You currently have {Math.round(state.total)} {state.thingName}
         </p>
         <p>
-          Things per second {state.thingsPerSecond}
+          {state.thingName} per second {state.thingsPerSecond}
         </p>
-        <button onClick={()=>factory.Make()}>Make</button>
-        <button onClick={()=>factory.Buy()}>Increase things per second ({state.cost})</button>
+        <button onClick={()=>factory.Make()}>Make {state.thingName}</button>
+        <button onClick={()=>factory.Buy()}>Increase {state.thingName} per second ({state.cost})</button>
       </header>
     </div>
   );

@@ -1,13 +1,18 @@
 export class Factory {
     constructor(onUpdate){
         this.startedAt = new Date();
+        this.allTimeTotal = 0;
         this.total = 0;
-        this.thingsPerSecond = 1.00;
+        this.thingsPerSecond = 0.00;
         this.thingsToAdd = 0;
         this.onUpdate = onUpdate;
         this.lastUpdate = this.startedAt;
         this.cost = 10;
         this.costMultiplyer = 1.1;
+        this.thingName = "Potatoes"
+    }
+    UpdateName(name){
+        this.thingName = name;
     }
     Make(){
         this.thingsToAdd ++;
@@ -24,13 +29,16 @@ export class Factory {
         const now = new Date();
         const timeSinceLastUpdate = now - this.lastUpdate;
         this.lastUpdate = now;
-        this.total += ((this.thingsPerSecond/1000) * timeSinceLastUpdate)
-        this.total += this.thingsToAdd;
+        const increment = ((this.thingsPerSecond/1000) * timeSinceLastUpdate) + this.thingsToAdd;
+        this.total += increment;
+        this.allTimeTotal += increment;
         this.thingsToAdd = 0;
         this.onUpdate({
             total: this.total,
+            allTimeTotal: this.allTimeTotal,
             cost: this.cost,
-            thingsPerSecond: this.thingsPerSecond
+            thingsPerSecond: this.thingsPerSecond,
+            thingName: this.thingName
         });
     }
 }

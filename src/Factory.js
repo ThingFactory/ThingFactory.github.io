@@ -8,21 +8,32 @@ export class Factory {
         this.onUpdate = onUpdate;
         this.lastUpdate = this.startedAt;
         this.cost = 10;
+        this.thingsPerClickCost = this.cost * 10;
         this.costMultiplyer = 1.1;
+        this.costMultiplyerMultiplyer = 1.001;
         this.thingName = "Potatoes"
+        this.thingsPerClick = 1;
     }
     UpdateName(name){
         this.thingName = name;
     }
     Make(){
-        this.thingsToAdd ++;
+        this.thingsToAdd += this.thingsPerClick;
     }
-    Buy(){
+    BuyAuto(){
         if(this.total >= this.cost){  
             this.total -= this.cost;
             this.thingsPerSecond++;
             this.cost = Math.round(this.cost * this.costMultiplyer);
-            this.costMultiplyer = this.costMultiplyer * 1.1;
+            this.costMultiplyer = this.costMultiplyer * this.costMultiplyerMultiplyer;
+        }
+    }
+    BuyManual(){
+        if(this.total >= this.thingsPerClickCost){  
+            this.total -= this.thingsPerClickCost;
+            this.thingsPerClick++;
+            this.thingsPerClickCost = Math.round(this.thingsPerClickCost * this.costMultiplyer);
+            this.costMultiplyer = this.costMultiplyer * this.costMultiplyerMultiplyer;
         }
     }
     Update(){
@@ -38,7 +49,9 @@ export class Factory {
             allTimeTotal: this.allTimeTotal,
             cost: this.cost,
             thingsPerSecond: this.thingsPerSecond,
-            thingName: this.thingName
+            thingName: this.thingName,
+            thingsPerClickCost: this.thingsPerClickCost,
+            thingsPerClick: this.thingsPerClick
         });
     }
 }
